@@ -20,7 +20,7 @@ class Card:
     def credit(self):
         if Card.balance > 0:
             self.count += 1
-            self.balance -= 1
+            Card.balance -= 1
             return True
         else:
             print(f'На карте {self.num} недостаточно средств')
