@@ -30,7 +30,7 @@ def decor(func): #Декоратор, вложение одной функции
 def null():
     print("null")
 
-# @time_run
+#@time_run
 def etalon(n):
     print('START')
     time.sleep(n)
@@ -39,10 +39,11 @@ print(__name__)
 if __name__ == '__main__':
 
     #print(__name__)
-    null()
+    #null()
     # dec = decor(null)
     # dec()
     start = time.time()
+    print(start)
     etalon(3)
     stop = time.time()
     print(stop)
