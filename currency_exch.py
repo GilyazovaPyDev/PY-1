@@ -28,6 +28,36 @@ def exchange():
     # code = entry.get().strip().upper()
     target_code = target_combobox.get()
     base1_code = base1_combobox.get()
+    base2_code = base2_combobox.get()
+    if target_code and base1_code and base2_code:
+        try:
+            result1 = requests.get(f"https://open.er-api.com/v6/latest/{base1_code}")
+            result1.raise_for_status()
+            # data = json.loads(result.text)
+            data1 = result1.json()
+
+            result2 = requests.get(f"https://open.er-api.com/v6/latest/{base2_code}")
+            result2.raise_for_status()
+            data2 = result2.json()
+            if target_code in data1['rates'] and target_code in data2['rates']:
+                exchange_rate1 = data1['rates'][target_code]
+                base1 = currencies[base1_code]
+                target1 = currencies[target_code]
+                exchange_rate2 = data2['rates'][target_code]
+                base2 = currencies[base1_code]
+                target2 = currencies[target_code]
+
+                mb.showinfo('Курс обмена',
+                            f'Курс '
+                            f' {exchange_rate1:.1f} {target_code} за 1 {base1}'
+                            f' {exchange_rate2:.1f} {target_code} за 1 {base2}')
+            else:
+                mb.showerror('Ошибка', f'Валюта {target_code} не найдена')
+
+
+        except Exception as e:
+            mb.showerror('Ошибка', f'error 400 {e}')
+
     if target_code and base1_code:
         try:
             result = requests.get(f"https://open.er-api.com/v6/latest/{base1_code}")
@@ -44,7 +74,6 @@ def exchange():
                             f' {exchange_rate:.1f} {target} за 1 {base}')
             else:
                 mb.showerror('Ошибка', f'Валюта {target_code} не найдена')
-
 
         except Exception as e:
             mb.showerror('Ошибка', f'error 400 {e}')
