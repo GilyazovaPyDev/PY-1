@@ -42,15 +42,13 @@ def exchange():
             if target_code in data1['rates'] and target_code in data2['rates']:
                 exchange_rate1 = data1['rates'][target_code]
                 base1 = currencies[base1_code]
-                target1 = currencies[target_code]
+
                 exchange_rate2 = data2['rates'][target_code]
-                base2 = currencies[base1_code]
-                target2 = currencies[target_code]
+                base2 = currencies[base2_code]
 
                 mb.showinfo('Курс обмена',
-                            f'Курс '
-                            f' {exchange_rate1:.1f} {target_code} за 1 {base1}'
-                            f' {exchange_rate2:.1f} {target_code} за 1 {base2}')
+                            f'Курс {exchange_rate1:.1f} {target_code} за 1 {base1}\n'
+                            f'Курс {exchange_rate2:.1f} {target_code} за 1 {base2}')
             else:
                 mb.showerror('Ошибка', f'Валюта {target_code} не найдена')
 
@@ -58,7 +56,7 @@ def exchange():
         except Exception as e:
             mb.showerror('Ошибка', f'error 400 {e}')
 
-    if target_code and base1_code:
+    if target_code and base1_code and not base2_code:
         try:
             result = requests.get(f"https://open.er-api.com/v6/latest/{base1_code}")
             result.raise_for_status()
@@ -91,7 +89,7 @@ currencies = {
     "USD": "Доллар США",
     "EUR": "Евро",
     "CNY": "Юань",
-    "RUB": "Российский рубль",
+    "RUB": "Российский рубль"
 }
 
 # pop_curr = ['EUR', 'USD', 'RUB', 'CNY']
