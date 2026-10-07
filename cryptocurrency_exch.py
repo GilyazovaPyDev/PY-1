@@ -6,12 +6,13 @@ from tkinter import ttk
 from tkinter import messagebox as mb
 
 def exchange():
-    target_code = "usd"
-    base_code = base_combobox.get().lower()
+    base_code = "usd"
+    target_code = cryptocurrencies[target_combobox.get()]
+    print(target_code)
     url = "https://api.coingecko.com/api/v3/simple/price"
     params = {
-        "vs_currencies": target_code,
-        "ids": base_code,
+        "vs_currencies": base_code,
+        "ids": target_code,
     }
 
     if target_code and base_code:
@@ -21,10 +22,10 @@ def exchange():
             data = result.json()
             print(data)
 
-            exchange_rate = data.get(base_code).get(target_code)
+            exchange_rate = data.get(target_code).get(base_code)
 
             mb.showinfo('Курс обмена криптовалюты',
-                        f'Курс {exchange_rate} {base_code} за 1 {target_code}')
+                        f'Курс {exchange_rate} Доллар США за 1 {target_combobox.get()}')
 
         except Exception as e:
             mb.showerror('Ошибка!', f'error 400 {e}')
@@ -33,7 +34,13 @@ def exchange():
         mb.showerror('Ошибка!', "Выберите базовую валюту!")
 
 
-cryptocurrencies = ["Bitcoin", "Ethereum", "Tether", "BNB", "XRP"]
+cryptocurrencies = {
+    "Bitcoin" : "bitcoin",
+    "Ethereum" : "ethereum",
+    "Tether": "tether",
+    "BNB" : "binancecoin",
+    "XRP" : "ripple"
+}
 
 
 root = Tk()
@@ -45,12 +52,12 @@ root.geometry(f"{Xx}x{Yy}+{WIDTH // 2 - Xx // 2}"
               f"+{HEIGHT // 2 - Yy // 2}")
 root.title("Курс обмена криптовалют по отношению к доллару")
 
+Label(text='Выберите целевую криптовалюту:').pack(pady=10, padx=10)
+target_combobox = ttk.Combobox(values=list(cryptocurrencies.keys()))
+target_combobox.pack()
+
 Label(text='Базовая валюта:').pack(pady=10, padx=10)
 Label(text="Доллар США").pack()
-
-Label(text='Выберите целевую криптовалюту:').pack(pady=10, padx=10)
-base_combobox = ttk.Combobox(values=cryptocurrencies)
-base_combobox.pack()
 
 
 button = Button(text='Получить курс', command=exchange)
@@ -58,7 +65,6 @@ button.pack(pady=10)
 
 
 root.mainloop()
-
 
 #
 #
