@@ -55,11 +55,11 @@ class LinkedList:
 
 
 ll = LinkedList()
-ll.push('Barsk')
+ll.push('Barsik')
 ll.push('Alisa')
 ll.push('Murchik')
 ll.push('Atosik')
 # print(ll)
-# print(ll.pop_left())
+print(ll.pop_left())
 print(ll)
-print(ll.entry('Atosik'))
+print(ll.entry('Barsik'))
